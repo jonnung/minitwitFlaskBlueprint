@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import os
 
 from flask import Flask, render_template
+from application.view.minitwit import bp_minitwit, timeline
 
 
 class MinitwitApp(Flask):
@@ -15,7 +17,9 @@ class MinitwitApp(Flask):
         self.config.from_envvar('MINITWIT_SETTINGS', silent=True)
 
     def __register_blueprints(self):
-        self.add_url_rule('/', 'home', view_func=miniwit_home)
+        self.register_blueprint(bp_minitwit, url_prefix='/timeline')
+        self.add_url_rule('/', 'home', view_func=timeline)
+        self.template_folder = os.path.join(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))), 'templates')
 
         # Error handlers
         # Handle 404 errors
