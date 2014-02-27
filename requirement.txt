@@ -1,0 +1,4 @@
+# Development environment pip requirements file
+# Install via 'pip install -r requirements.txt'
+
+Flask
