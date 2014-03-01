@@ -27,6 +27,9 @@ class MinitwitModel(Flask):
         데이터베이스 질의를 쉽게 처리할 수 있는 공통 함수
         """
         cur = g.db.execute(query, args)
+        """
+        dict() 구성자는 키-값 쌍이 투플로 저장된 리스트로부터 직접 사전을 만든다.
+        """
         rv = [dict((cur.description[idx][0], value)
                    for idx, value in enumerate(row)) for row in cur.fetchall()]
         return (rv[0] if rv else None) if one else rv  # 굉장히 깔끔하고 의미전달이 확실한 if문 같다

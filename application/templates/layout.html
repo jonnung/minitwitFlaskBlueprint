@@ -8,6 +8,30 @@
     <div class="page">
         <h1>MiniTwit</h1>
         <div class="navigation">
+        {% if g.uer %}
+            <a href="{{ url_for('bp_minitwit.timeline') }}">my timeline</a> |
+            <a href="{{ url_for('bp_minitwit.public_timeline') }}">public timeline</a> |
+            <a href="{{ url_for('bp_user.logout') }}">sign out [{{ g.user.username }}]</a>
+        {% else %}
+            <a href="{{ url_for('bp_minitwit.public_timeline') }}">public timeline</a> |
+            <a href="{{ url_for('bp_user.register') }}">sign up</a> |
+            <a href="{{ url_for('bp_user.login') }}">sign in</a>
+        {% endif %}
+        </div>
+        {% with flashes = get_flashed_messages() %}
+            {% if flashes %}
+                <ul class="flashes">
+                    {% for message in flashes %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="body">
+        {% block body %}{% endblock %}
+        </div>
+        <div class="footer">
+            Minitwit &mdash; A Flask Application
         </div>
     </div>
 </body>

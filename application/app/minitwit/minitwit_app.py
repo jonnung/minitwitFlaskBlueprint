@@ -9,13 +9,13 @@ from application.model import db
 
 class MinitwitApp(Flask):
     def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
+        super(self.__class__, self).__init__(*args, **kwargs)  # PHP 에서 parent::cunstruct 같은 건가
         self.__init_config__()
         self.__register_blueprints()
 
     def __init_config__(self):
         self.config.from_object('application.config.settings.Config')
-        self.config.from_envvar('MINITWIT_SETTINGS', silent=True)
+        self.config.from_envvar('MINITWIT_SETTINGS', silent=True)  # 용도를 모르겠음
 
     def __register_blueprints(self):
         """
