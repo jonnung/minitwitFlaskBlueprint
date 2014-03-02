@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import time
+from datetime import datetime
+from hashlib import md5
 from flask import render_template, g, url_for, request, redirect, flash, session, abort
 from flask.blueprints import Blueprint
 from application.model import db
@@ -18,6 +20,14 @@ def get_user_id(username):
     """
     rv = db.execute('select user_id from user where username = ?', [username]).fetchone()
     return rv[0] if rv else None
+
+
+def format_datetime(timestamp):
+    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
+
+
+def gravatar_url(email, size=80):
+    return 'http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
 
 
 @bp_minitwit.route('/')
@@ -38,7 +48,7 @@ def public_timeline():
         select message.*, user.* from message, user
         where message.author_id = user.user_id
         order by message.pub_date desc limit ?
-    ''', Config.PER_PAGE))
+    ''', [Config.PER_PAGE]))
 
 
 @bp_minitwit.route('/<username>')
