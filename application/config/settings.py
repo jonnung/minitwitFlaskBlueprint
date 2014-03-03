@@ -5,4 +5,4 @@ class Config(object):  # object 를 전달하는 이유?
     DATABASE = '/tmp/minitwit.db'
     PER_PAGE = 30
     DEBUG = True
-    SERCRET_KEY = 'development'
+    SECRET_KEY = 'cjtqjsWovmffktmxmdoq!'

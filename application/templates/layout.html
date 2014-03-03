@@ -8,7 +8,7 @@
     <div class="page">
         <h1>MiniTwit</h1>
         <div class="navigation">
-        {% if g.uer %}
+        {% if g.user %}
             <a href="{{ url_for('bp_minitwit.timeline') }}">my timeline</a> |
             <a href="{{ url_for('bp_minitwit.public_timeline') }}">public timeline</a> |
             <a href="{{ url_for('bp_user.logout') }}">sign out [{{ g.user.username }}]</a>
