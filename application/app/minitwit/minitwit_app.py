@@ -3,7 +3,7 @@
 import os
 
 from flask import Flask, render_template, g, session
-from application.view.minitwit import bp_minitwit, bp_user, timeline
+from application.view.minitwit import bp_minitwit, bp_user, timeline, format_datetime, gravatar_url
 from application.model import db
 
 
@@ -12,6 +12,7 @@ class MinitwitApp(Flask):
         super(self.__class__, self).__init__(*args, **kwargs)  # PHP 에서 parent::cunstruct 같은 건가
         self.__init_config__()
         self.__register_blueprints()
+        self.__register_jinja_filters()
 
     def __init_config__(self):
         self.config.from_object('application.config.settings.Config')
@@ -25,6 +26,7 @@ class MinitwitApp(Flask):
         self.register_blueprint(bp_user, url_prefix='/user')
         self.add_url_rule('/', 'home', view_func=timeline)
         self.template_folder = os.path.join(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))), 'templates')
+        self.static_folder = os.path.join(os.path.dirname((os.path.dirname(os.path.dirname(__file__)))), 'static')
 
         # Error handlers
         # Handle 404 errors
@@ -56,3 +58,7 @@ class MinitwitApp(Flask):
             """
             if hasattr(g, 'db'):
                 g.db.close()
+
+    def __register_jinja_filters(self):
+        self.jinja_env.filters['datetimeformat'] = format_datetime
+        self.jinja_env.filters['gravatar'] = gravatar_url
